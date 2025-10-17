@@ -8,11 +8,17 @@
 #include <utility>
 using namespace std;
 
-void MenuItems::printItem()
+void Menu::printItem()
 {
     for (const auto& temp : items)
     {
         cout << temp.second << ": ";
         temp.first->display();
     }
+}
+void Menu::addItem (linkedlist* head,string type)
+{
+    auto temp = make_pair(head,type);
+    items.push_back(temp);
+
 }

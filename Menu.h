@@ -8,15 +8,12 @@
 #include <utility>
 using namespace std;
 
-class MenuItems
+class Menu
 {
     private:
     vector <pair<linkedlist*,string>> items;  // غذا، نوشیدنی، پیش غذا
 
     public:
+    void addItem (linkedlist* head,string type);
     void printItem();
-
-
-    
-
 };
