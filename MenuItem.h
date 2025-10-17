@@ -13,9 +13,10 @@ class MenuItem
 {
     private:
     linkedlist* food;
+    fstream file();
 
     public:
-    MenuItem(string name, Menu menu);
+    MenuItem(string name, Menu* menu);
     string name;
     
 };
