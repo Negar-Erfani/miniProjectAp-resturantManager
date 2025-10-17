@@ -13,39 +13,42 @@ MenuItem::MenuItem (string name, Menu* menu) : name(name)
 {
     string fileName = name+".txt";
     food = new linkedlist();
-    ifstream file(fileName);
+    fstream file(fileName, ios::in | ios::out | ios::app);
     string temp;
-    if (file.is_open())
-    {
-        while(file >> temp)
-        {
-            ofstream file(fileName);
-            food->insert(temp);
-        }
-        file.close();
 
-    }
-    else
-    {
-    fstream file(fileName, ios::out | ios::app);
-    if (file.is_open())
-    {
-        string userDefinedFood;
-        while(cin >> userDefinedFood)
+    
+        if (!file.is_open())
         {
-            if(userDefinedFood == "end")
+            file.open(fileName, ios::out);
+            string userDefinedFood;
+            cout << "-----------------------------------------------------------"<<endl;
+            cout << "\033[31m"<< "please enter your list for "<< name << ". " << endl;
+            cout << "write" << "\033[1m" << "'end' " << "\033[22m" << "when you are done" << "\033[0m :" <<endl;
+            while(cin >> userDefinedFood)
             {
-                break;
+                if(userDefinedFood == "end")
+                {
+                    #ifdef _WIN32
+                    system("chcp 65001"); // تنظیم کدپیج UTF-8 در ویندوز
+                    #endif
+                    cout << "Added successfully \U0001F600" << endl;
+                    break;
+                }
+                else
+                {
+                    file << userDefinedFood << endl;
+                }
             }
-            else
-            {
-                file << userDefinedFood << endl;
-            }
-
+            file.close();
         }
 
+    
+    file.open(fileName, ios::in | ios::out);
+    file.seekp(0, ios::end);
+    string temp;
+    while (file >> temp) 
+    {
+        food->insert(temp);
     }
-    }
-    menu->addItem (food, name);
-
+    file.close();
 }
