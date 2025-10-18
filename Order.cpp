@@ -1,4 +1,3 @@
-#pragma once
 #include <iostream>
 #include <string>
 #include <vector>
@@ -13,6 +12,6 @@ Order::Order(int id, string name) : customerId(id), customerName(name)
 {
     counter++;
     orderId = counter;
-    status = 1;
+    status = Processing;
 
 };
