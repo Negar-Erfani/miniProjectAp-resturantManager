@@ -44,10 +44,10 @@ void linkedlist::display()
 {
     Node* temp = head;
         while (temp != nullptr) {
-            std::cout << temp->data << " ";
+            cout << temp->data << " ";
             temp = temp->next;
         }
-        std::cout << "nullptr" << std::endl;
+        cout << endl;
 }
 
 

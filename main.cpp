@@ -10,11 +10,11 @@
 using namespace std;
 
 int main() {
+    // از روی فایل لینک لیست مربوط به هر کدوم رو پر کن
     Menu* menu = new Menu();
     MenuItem* food = new MenuItem("food", menu);
     MenuItem* apetizer = new MenuItem("apetizer", menu);
     MenuItem* drink = new MenuItem("drink", menu);
-    // از روی فایل لینک لیست مربوط به هر کدوم رو پر کن
     menu->printItem();
 
 

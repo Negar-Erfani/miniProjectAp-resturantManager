@@ -13,7 +13,8 @@ MenuItem::MenuItem (string name, Menu* menu) : name(name)
 {
     string fileName = name+".txt";
     food = new linkedlist();
-    ifstream file(fileName);
+    ifstream file;
+    file.open(fileName);
     string temp;
 
     
@@ -41,14 +42,22 @@ MenuItem::MenuItem (string name, Menu* menu) : name(name)
                     newFile << userDefinedFood << endl;
                 }
             }
+            newFile.close();
+            file.open(fileName);
         }
 
     
-    file.open(fileName);
     string temp2;
-    while (file >> temp2) 
+
+    if(file.is_open())
     {
+        file.seekg(0, ios::beg);
+        while (file >> temp2) 
+        {
         food->insert(temp2);
+        }
+        menu->addItem(food, name);
+        file.close();
     }
-    file.close();
 }
+
