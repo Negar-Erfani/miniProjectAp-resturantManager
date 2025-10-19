@@ -136,17 +136,17 @@ void AVLTree::remove(Order val) {
     root = remove(root, val);
 }
 
-bool AVLTree::search(Order val) {
+Node* AVLTree::search(int orderNum) {
     Node* current = root;
     while (current != nullptr) {
-        if (val.orderNum == current->data.orderNum)
-            return true;
-        else if (val.orderNum < current->data.orderNum)
+        if (orderNum == current->data.orderNum)
+            return current;
+        else if (orderNum < current->data.orderNum)
             current = current->left;
         else
             current = current->right;
     }
-    return false;
+    return nullptr;
 }
 
 void AVLTree::inorder(Node* node) {

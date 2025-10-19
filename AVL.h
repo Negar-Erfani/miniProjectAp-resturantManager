@@ -35,6 +35,6 @@ public:
     AVLTree() : root(nullptr) {}
     void insert(Order val);
     void remove(Order val);
-    bool search(Order val);
+    Node* search(int orderNum);
     void inorderTraversal();
 };

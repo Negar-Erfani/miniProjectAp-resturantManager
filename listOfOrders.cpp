@@ -89,3 +89,9 @@ void listOfOrders::getOrder()
     
 
 }
+void listOfOrders::changeOrder(int OrderNum,  int istruction)
+{
+    orderList->search(OrderNum);
+
+
+}
