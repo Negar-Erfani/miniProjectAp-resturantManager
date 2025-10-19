@@ -136,7 +136,7 @@ void AVLTree::remove(Order val) {
     root = remove(root, val);
 }
 
-Node* AVLTree::search(int orderNum) {
+AVLTree::Node* AVLTree::search(int orderNum) {
     Node* current = root;
     while (current != nullptr) {
         if (orderNum == current->data.orderNum)

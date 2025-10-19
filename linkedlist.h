@@ -2,17 +2,17 @@
 #include <iostream>
 using namespace std;
 
-struct Node {
+struct Nodel {
     string data;     
-    Node* next;   
+    Nodel* next;   
 
-    Node(string value);
+    Nodel(string value);
 };
 
 class linkedlist
 {
     private:
-    Node* head;
+    Nodel* head;
 
     public:
     linkedlist();
@@ -20,5 +20,6 @@ class linkedlist
     void remove(string value);
     void display();
     string asLine();
+    int getNum();
 
 };

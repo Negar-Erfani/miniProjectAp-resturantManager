@@ -2,17 +2,17 @@
 #include "linkedlist.h"
 using namespace std;
 
-Node::Node(string value) : data(value), next(nullptr) {};
+Nodel::Nodel(string value) : data(value), next(nullptr) {};
 
 linkedlist::linkedlist() : head(nullptr) {};
 void linkedlist::insert(string value)
 {
-    Node* newNode = new Node(value);
+    Nodel* newNode = new Nodel(value);
         if (head == nullptr) {
             head = newNode;
             return;
         }
-        Node* temp = head;
+        Nodel* temp = head;
         while (temp->next != nullptr) {
             temp = temp->next;
         }
@@ -23,35 +23,46 @@ void linkedlist::remove(string value)
     if (head == nullptr) return;
 
         if (head->data == value) {
-            Node* temp = head;
+            Nodel* temp = head;
             head = head->next;
             delete temp;
             return;
         }
 
-        Node* temp = head;
+        Nodel* temp = head;
         while (temp->next != nullptr && temp->next->data != value) {
             temp = temp->next;
         }
         if (temp->next == nullptr) return;  
 
-        Node* nodeToDelete = temp->next;
+        Nodel* nodeToDelete = temp->next;
         temp->next = temp->next->next;
         delete nodeToDelete;
     
 }
 void linkedlist::display()
 {
-    Node* temp = head;
+    Nodel* temp = head;
         while (temp != nullptr) {
             cout << temp->data << " ";
             temp = temp->next;
         }
         cout << endl;
 }
+int linkedlist::getNum()
+{
+    int number = 0;
+    Nodel* temp = head;
+        while (temp != nullptr) 
+        {
+            number++;
+            temp = temp->next;
+        }
+        cout << endl;
+}
 string linkedlist::asLine()
 {
-    Node* temp = head;
+    Nodel* temp = head;
     string tempLine;
         while (temp != nullptr) {
             tempLine += temp->data;

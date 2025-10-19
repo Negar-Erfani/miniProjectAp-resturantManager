@@ -89,9 +89,17 @@ void listOfOrders::getOrder()
     
 
 }
-void listOfOrders::changeOrder(int OrderNum,  int istruction)
+void listOfOrders::deleteOrder(int OrderNum, string singleOrder)
 {
-    orderList->search(OrderNum);
+    AVLTree::Node* targetOrder = orderList->search(OrderNum);
+    if(targetOrder->data.orderedItems->getNum() > 1)
+    {
+    targetOrder->data.orderedItems->remove(singleOrder);
+    }
+    else
+    {
+        cout << "order can't be deleted because of number limitation of atleast 1!" << endl;
+    }
 
 
 }
