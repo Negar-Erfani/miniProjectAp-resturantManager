@@ -12,10 +12,14 @@
 using namespace std;
 
 int Order::counter = 0;
-Order::Order(int customerId, string name, linkedlist* ordered ) : customerId(customerId), customerName(name)
+Order::Order(string name, int customerId, linkedlist* ordered) : customerName(name), customerId(customerId)
 {
     counter++;
-    orderId = counter;
-    status = "Processing";
+    orderNum = counter;
+    orderStatus = "Processing";
     orderedItems = ordered;
+}
+void Order::changeStatus (string newStatus)
+{
+    this->orderStatus = newStatus;
 }

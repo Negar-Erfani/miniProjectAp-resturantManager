@@ -1,160 +1,164 @@
-#include <iostream>
-#include <string>
-#include <vector>
-#include <fstream>
-#include <sstream>
-#include <map>
-#include <utility>
-#include "Order.h"
 #include "AVL.h"
+#include "Order.h"
+#include <algorithm> // for std::max
 using namespace std;
 
-Node::Node(Order value) : data(value), left(nullptr), right(nullptr), height(1) {};
+int AVLTree::getHeight(Node* node) {
+    if (node == nullptr) return 0;
+    return node->height;
+}
 
-AVLTree::AVLTree()
-{
-    
-    string fileName = "orderInfo.txt";
-    ifstream file;
-    file.open(fileName);
-    string temp;
+int AVLTree::getBalance(Node* node) {
+    if (node == nullptr) return 0;
+    return getHeight(node->left) - getHeight(node->right);
+}
 
-    if (!file.is_open())
-    {
-        root = nullptr;
+typename AVLTree::Node* AVLTree::rightRotate(Node* y) {
+    Node* x = y->left;
+    Node* T2 = x->right;
+    x->right = y;
+    y->left = T2;
+    y->height = std::max(getHeight(y->left), getHeight(y->right)) + 1;
+    x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
+    return x;
+}
+
+typename AVLTree::Node* AVLTree::leftRotate(Node* x) {
+    Node* y = x->right;
+    Node* T2 = y->left;
+    y->left = x;
+    x->right = T2;
+    x->height = std::max(getHeight(x->left), getHeight(x->right)) + 1;
+    y->height = std::max(getHeight(y->left), getHeight(y->right)) + 1;
+    return y;
+}
+
+typename AVLTree::Node* AVLTree::insert(Node* node, Order val) {
+    if (node == nullptr) return new Node(val);
+
+    if (val.orderNum < node->data.orderNum)
+        node->left = insert(node->left, val);
+    else if (val.orderNum >node->data.orderNum)
+        node->right = insert(node->right, val);
+    else
+        return node; 
+
+    node->height = 1 + max(getHeight(node->left), getHeight(node->right));
+
+    int balance = getBalance(node);
+
+    if (balance > 1 && val.orderNum < node->left->data.orderNum)
+        return rightRotate(node);
+
+    // Right Right Case
+    if (balance < -1 && val.orderNum > node->right->data.orderNum)
+        return leftRotate(node);
+
+    // Left Right Case
+    if (balance > 1 && val.orderNum > node->left->data.orderNum) {
+        node->left = leftRotate(node->left);
+        return rightRotate(node);
     }
-    string line, templine;
 
-    if(file.is_open())
-    {
-        file.seekg(0, ios::beg);
-        linkedlist* ordered = new linkedlist();
-        vector <string> info;
-        int orderId;
-        while (getline(file, line)) 
-        {
-            stringstream ss (line);
-            while(ss >> templine)
-            {
-                info.push_back(templine);
-            }
-            for (size_t i = 3; i < info.size()-1; i++)
-            {
-                ordered->insert(info.at(i));
-            }
-            
-        Order orderTemp =  Order(stoi(info.at(2)), info.at(1), ordered);
-        orderTemp.changeStatus(stoi(info.at(0)),info.at(info.size()-1));
-        insert(orderTemp);
-        }
-        file.close();
+    // Right Left Case
+    if (balance < -1 && val.orderNum < node->right->data.orderNum) {
+        node->right = rightRotate(node->right);
+        return leftRotate(node);
     }
-};
 
-int AVLTree::getHeight(Node* node) 
-{
-    return node ? node->height : 0;
+    return node;
 }
 
-int AVLTree::getBalance(Node* node) 
-{
-    return node ? getHeight(node->left) - getHeight(node->right) : 0;
+void AVLTree::insert(Order val) {
+    root = insert(root, val);
 }
 
-Node* AVLTree::rightRotate(Node* y) 
-{
-        Node* x = y->left;
-        Node* T2 = x->right;
-        x->right = y;
-        y->left = T2;
-        y->height = max(getHeight(y->left), getHeight(y->right)) + 1;
-        x->height = max(getHeight(x->left), getHeight(x->right)) + 1;
-        return x;
+typename AVLTree::Node* AVLTree::minValueNode(Node* node) {
+    Node* current = node;
+    while (current->left != nullptr)
+        current = current->left;
+    return current;
 }
 
-Node* AVLTree::leftRotate(Node* x) 
-{
-        Node* y = x->right;
-        Node* T2 = y->left;
-        y->left = x;
-        x->right = T2;
-        x->height = max(getHeight(x->left), getHeight(x->right)) + 1;
-        y->height = max(getHeight(y->left), getHeight(y->right)) + 1;
-        return y;
-}
+typename AVLTree::Node* AVLTree::remove(Node* node, Order val) {
+    if (node == nullptr) return node;
 
-Node* AVLTree::insertHelper(Node* node, Order value) 
-{
-        if (!node) return new Node(value);
-        if (value.orderId < node->data.orderId)
-            node->left = insertHelper(node->left, value);
-        else if (value.orderId > node->data.orderId)
-            node->right = insertHelper(node->right, value);
-        else
-            return node;
-
-        node->height = max(getHeight(node->left), getHeight(node->right)) + 1;
-
-        int balance = getBalance(node);
-
-        if (balance > 1 && value.orderId < node->left->data.orderId)
-            return rightRotate(node);
-
-        if (balance < -1 && value.orderId > node->right->data.orderId)
-            return leftRotate(node);
-  
-        if (balance > 1 && value.orderId > node->left->data.orderId) {
-            node->left = leftRotate(node->left);
-            return rightRotate(node);
+    if (val.orderNum < node->data.orderNum)
+        node->left = remove(node->left, val);
+    else if (val.orderNum > node->data.orderNum)
+        node->right = remove(node->right, val);
+    else {
+        if ((node->left == nullptr) || (node->right == nullptr)) {
+            Node* temp = node->left ? node->left : node->right;
+            if (temp == nullptr) {
+                temp = node;
+                node = nullptr;
+            } else
+                *node = *temp;
+            delete temp;
+        } else {
+            Node* temp = minValueNode(node->right);
+            node->data = temp->data;
+            node->right = remove(node->right, temp->data);
         }
+    }
 
-        if (balance < -1 && value.orderId < node->right->data.orderId) {
-            node->right = rightRotate(node->right);
-            return leftRotate(node);
-        }
+    if (node == nullptr) return node;
 
-        return node;
+    node->height = 1 + std::max(getHeight(node->left), getHeight(node->right));
+
+    int balance = getBalance(node);
+
+    // Left Left Case
+    if (balance > 1 && getBalance(node->left) >= 0)
+        return rightRotate(node);
+
+    // Left Right Case
+    if (balance > 1 && getBalance(node->left) < 0) {
+        node->left = leftRotate(node->left);
+        return rightRotate(node);
+    }
+
+    // Right Right Case
+    if (balance < -1 && getBalance(node->right) <= 0)
+        return leftRotate(node);
+
+    // Right Left Case
+    if (balance < -1 && getBalance(node->right) > 0) {
+        node->right = rightRotate(node->right);
+        return leftRotate(node);
+    }
+
+    return node;
 }
 
-Node* AVLTree::searchHelper(Node* node, int orderId) 
-{
-        if (!node || node->data.orderId == orderId)
-            return node;
-        if (orderId < node->data.orderId)
-            return searchHelper(node->left, orderId);
-        return searchHelper(node->right, orderId);
+void AVLTree::remove(Order val) {
+    root = remove(root, val);
 }
 
-void AVLTree::inorderHelper(Node* node) 
-{
-        if (node) {
-            inorderHelper(node->left);
-            cout << "Order ID: " << node->data.orderId << ", Customer: " << node->data.customerName
-                 << ", Status: " << node->data.status << endl;
-            inorderHelper(node->right);
-        }
-}
-
-AVLTree::AVLTree() : root(nullptr) {};
-
-void AVLTree::insert(Order value) 
-{
-    this->root = insertHelper(this->root, value);
-}
-
-bool AVLTree::search(int orderId) 
-{
-        Node* result = searchHelper(root, orderId);
-        if (result) {
-            cout << "Found: Order ID: " << result->data.orderId << ", Customer: "
-                 << result->data.customerName << ", Status: " << result->data.status << endl;
+bool AVLTree::search(Order val) {
+    Node* current = root;
+    while (current != nullptr) {
+        if (val.orderNum == current->data.orderNum)
             return true;
-        }
-        return false;
+        else if (val.orderNum < current->data.orderNum)
+            current = current->left;
+        else
+            current = current->right;
+    }
+    return false;
 }
 
-void AVLTree::inorder() 
-{
-        inorderHelper(root);
-        cout << endl;
+void AVLTree::inorder(Node* node) {
+    if (node != nullptr) {
+        inorder(node->left);
+        cout << node->data.orderNum << " " << node->data.customerName << node->data.customerId  << " ";
+        node->data.orderedItems->display();
+        inorder(node->right);
+    }
+}
+
+void AVLTree::inorderTraversal() {
+    inorder(root);
+    cout << endl;
 }

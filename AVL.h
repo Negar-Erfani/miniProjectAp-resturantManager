@@ -4,36 +4,37 @@
 #include <vector>
 #include <fstream>
 #include <map>
-#include <utility>
+#include "linkedlist.h"
+#include "listOfOrders.h"
+#include "Menu.h"
 #include "Order.h"
+#include <utility>
 using namespace std;
-
-struct Node
-{
-    Order data;
-    Node* left;
-    Node* right;
-    int height;
-    Node(Order value);
-};
-
-class AVLTree 
-{
+class AVLTree {
 private:
+    struct Node {
+        Order data;
+        Node* left;
+        Node* right;
+        int height;
+        Node(Order val) : data(val), left(nullptr), right(nullptr), height(1) {}
+    };
+
     Node* root;
 
     int getHeight(Node* node);
     int getBalance(Node* node);
     Node* rightRotate(Node* y);
     Node* leftRotate(Node* x);
-    Node* insertHelper (Node* node, Order value);
-    Node* searchHelper(Node* node, int orderId);
-    void inorderHelper(Node* node);
-    void writeInFile();
+    Node* insert(Node* node, Order val);
+    Node* minValueNode(Node* node);
+    Node* remove(Node* node, Order val);
+    void inorder(Node* node);
 
 public:
-    AVLTree();
-    void insert(Order value);
-    bool search(int orderId);
-    void inorder();
+    AVLTree() : root(nullptr) {}
+    void insert(Order val);
+    void remove(Order val);
+    bool search(Order val);
+    void inorderTraversal();
 };

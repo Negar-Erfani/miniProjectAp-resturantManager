@@ -5,15 +5,16 @@
 #include <fstream>
 #include <map>
 #include "linkedlist.h"
-#include <utility>using namespace std;
+#include <utility>
+using namespace std;
 
 struct Order {
     static int counter;  //used to acknowledge orderId
+    int orderNum;        
     string customerName;  
     int customerId;  
-    int orderId;        
-    string status;     
     linkedlist* orderedItems; 
-    Order(int customerId, string name, linkedlist* ordered);
-    void changeStatus (int orderId, string newStatus);
+    string orderStatus;     
+    Order(string name, int customerId, linkedlist* ordered);
+    void changeStatus (string newStatus);
 };

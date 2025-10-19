@@ -13,12 +13,13 @@ using namespace std;
 
 int main() {
     // از روی فایل لینک لیست مربوط به هر کدوم رو پر کن
-    Menu* menu = new Menu();
-    MenuItem* food = new MenuItem("food", menu);
-    MenuItem* apetizer = new MenuItem("apetizer", menu);
-    MenuItem* drink = new MenuItem("drink", menu);
-    menu->printItem();
-    Order* order1 = new Order (int customerId, string name, linkedlist* ordered);
+    // Menu* menu = new Menu();
+    // MenuItem* food = new MenuItem("food", menu);
+    // MenuItem* apetizer = new MenuItem("apetizer", menu);
+    // MenuItem* drink = new MenuItem("drink", menu);
+    // menu->printItem();
+    AVLTree* listOfOrders = new AVLTree ();
+    listOfOrders->inorder();
     
 
 
