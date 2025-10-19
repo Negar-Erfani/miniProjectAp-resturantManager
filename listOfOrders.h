@@ -14,5 +14,6 @@ class listOfOrders
     public:
     AVLTree* orderList;
     void getOrder ();
+    void readFromFile();
 };
 

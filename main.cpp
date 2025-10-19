@@ -19,7 +19,8 @@ int main() {
     // MenuItem* apetizer = new MenuItem("apetizer", menu);
     // MenuItem* drink = new MenuItem("drink", menu);
     // menu->printItem();
-    listOfOrders* ourOrderList;
+    listOfOrders* ourOrderList = new listOfOrders();
+    ourOrderList->readFromFile();
     ourOrderList->getOrder();
 
     

@@ -3,6 +3,7 @@
 #include <vector>
 #include <fstream>
 #include <map>
+#include <sstream>
 #include "linkedlist.h"
 #include "listOfOrders.h"
 #include "AVL.h"
@@ -11,6 +12,42 @@
 #include <utility>
 using namespace std;
 
+void listOfOrders::readFromFile()
+{
+    orderList = new AVLTree();
+    string lineOrder, tempOrder;
+    vector <string> LineOrder;
+    ifstream orderInfo("order information.txt");
+    if(orderInfo.is_open())
+    {
+        while(getline(orderInfo, lineOrder))
+        {
+            stringstream ss (lineOrder);
+            {
+                while(ss >> tempOrder)
+                {
+                    LineOrder.push_back(tempOrder);
+                }
+            }
+            linkedlist* tempLinkedlist = new linkedlist();
+            for (size_t i = 3; i < LineOrder.size()-2; i++)
+            {
+                tempLinkedlist->insert(LineOrder.at(i));
+            }
+            Order* order = new Order(LineOrder.at(1), stoi(LineOrder.at(2)), tempLinkedlist);
+            order->changeStatus(LineOrder.at(LineOrder.size()-1));
+            order->orderNum = stoi(LineOrder.at(0));
+            order->counter = stoi(LineOrder.at(0));
+            delete tempLinkedlist;
+            delete order;
+        }
+    }
+    else
+    {
+        cout << "LIST failed" << endl;
+    }
+    orderInfo.close();
+}
 void listOfOrders::getOrder()
 {
     string name;
@@ -42,10 +79,10 @@ void listOfOrders::getOrder()
         cin >> temp3;
     }
     Order currentOrder = Order(name, studentId, orderedItems);
-    orderList = new AVLTree();
+    // orderList = new AVLTree();
     orderList->insert(currentOrder);
 
-    ofstream orderInfo("order informations.txt", ios::app);
+    ofstream orderInfo("order information.txt", ios::app);
     orderInfo << currentOrder.orderNum << " " << currentOrder.customerName << " " << currentOrder.customerId << " ";
     orderInfo << currentOrder.orderedItems->asLine() << currentOrder.orderStatus << "\n";
     orderInfo.close();
