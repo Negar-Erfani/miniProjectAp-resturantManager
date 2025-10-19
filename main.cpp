@@ -7,6 +7,8 @@
 #include "linkedlist.h"
 #include "Menu.h"
 #include "MenuItem.h"
+#include "Order.h"
+#include "AVL.h"
 using namespace std;
 
 int main() {
@@ -16,6 +18,8 @@ int main() {
     MenuItem* apetizer = new MenuItem("apetizer", menu);
     MenuItem* drink = new MenuItem("drink", menu);
     menu->printItem();
+    Order* order1 = new Order (int customerId, string name, linkedlist* ordered);
+    
 
 
     return 0;

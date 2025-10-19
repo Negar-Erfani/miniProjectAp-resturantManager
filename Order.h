@@ -4,15 +4,16 @@
 #include <vector>
 #include <fstream>
 #include <map>
-#include <utility>
-using namespace std;
+#include "linkedlist.h"
+#include <utility>using namespace std;
 
-enum statusKey {Processing = 1, Delivered, canceled};
 struct Order {
-    static int counter;
+    static int counter;  //used to acknowledge orderId
     string customerName;  
     int customerId;  
     int orderId;        
-    int status;      
-    Order(int id, string name){};
+    string status;     
+    linkedlist* orderedItems; 
+    Order(int customerId, string name, linkedlist* ordered);
+    void changeStatus (int orderId, string newStatus);
 };

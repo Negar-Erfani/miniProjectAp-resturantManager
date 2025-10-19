@@ -29,6 +29,7 @@ private:
     Node* insertHelper (Node* node, Order value);
     Node* searchHelper(Node* node, int orderId);
     void inorderHelper(Node* node);
+    void writeInFile();
 
 public:
     AVLTree();

@@ -2,6 +2,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
+#include <sstream>
 #include <map>
 #include <utility>
 #include "Order.h"
@@ -9,6 +10,46 @@
 using namespace std;
 
 Node::Node(Order value) : data(value), left(nullptr), right(nullptr), height(1) {};
+
+AVLTree::AVLTree()
+{
+    
+    string fileName = "orderInfo.txt";
+    ifstream file;
+    file.open(fileName);
+    string temp;
+
+    if (!file.is_open())
+    {
+        root = nullptr;
+    }
+    string line, templine;
+
+    if(file.is_open())
+    {
+        file.seekg(0, ios::beg);
+        linkedlist* ordered = new linkedlist();
+        vector <string> info;
+        int orderId;
+        while (getline(file, line)) 
+        {
+            stringstream ss (line);
+            while(ss >> templine)
+            {
+                info.push_back(templine);
+            }
+            for (size_t i = 3; i < info.size()-1; i++)
+            {
+                ordered->insert(info.at(i));
+            }
+            
+        Order orderTemp =  Order(stoi(info.at(2)), info.at(1), ordered);
+        orderTemp.changeStatus(stoi(info.at(0)),info.at(info.size()-1));
+        insert(orderTemp);
+        }
+        file.close();
+    }
+};
 
 int AVLTree::getHeight(Node* node) 
 {
