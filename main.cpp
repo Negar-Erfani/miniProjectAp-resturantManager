@@ -8,6 +8,7 @@
 #include "Menu.h"
 #include "MenuItem.h"
 #include "Order.h"
+#include "listOfOrders.h"
 #include "AVL.h"
 using namespace std;
 
@@ -18,8 +19,9 @@ int main() {
     // MenuItem* apetizer = new MenuItem("apetizer", menu);
     // MenuItem* drink = new MenuItem("drink", menu);
     // menu->printItem();
-    AVLTree* listOfOrders = new AVLTree ();
-    listOfOrders->inorder();
+    listOfOrders* ourOrderList = new listOfOrders();
+    ourOrderList->getOrder();
+
     
 
 

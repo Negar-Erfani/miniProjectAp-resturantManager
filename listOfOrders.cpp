@@ -41,7 +41,13 @@ void listOfOrders::getOrder()
         orderedItems->insert(temp3);
         cin >> temp3;
     }
-    orderList->insert(Order(name, studentId, orderedItems));
+    Order currentOrder = Order(name, studentId, orderedItems);
+    orderList->insert(currentOrder);
+
+    ofstream orderInfo("order informations", ios::app);
+    orderInfo << currentOrder.orderNum << " " << currentOrder.customerName << " " << currentOrder.customerId << " ";
+    cout << currentOrder.orderedItems->asLine();
+    orderInfo.close();
     
 
 }

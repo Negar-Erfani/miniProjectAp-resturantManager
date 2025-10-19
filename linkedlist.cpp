@@ -49,6 +49,18 @@ void linkedlist::display()
         }
         cout << endl;
 }
+string linkedlist::asLine()
+{
+    Node* temp = head;
+    string tempLine;
+        while (temp != nullptr) {
+            tempLine += temp->data;
+            tempLine += " ";
+            temp = temp->next;
+        }
+        return tempLine;
+}
+
 
 
 

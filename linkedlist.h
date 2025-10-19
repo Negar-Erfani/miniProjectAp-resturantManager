@@ -19,5 +19,6 @@ class linkedlist
     void insert(string value);
     void remove(string value);
     void display();
+    string asLine();
 
 };
