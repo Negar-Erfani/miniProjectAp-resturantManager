@@ -37,7 +37,7 @@ void listOfOrders::readFromFile()
             Order* order = new Order(LineOrder.at(1), stoi(LineOrder.at(2)), tempLinkedlist);
             order->changeStatus(LineOrder.at(LineOrder.size()-1));
             order->orderNum = stoi(LineOrder.at(0));
-            order->counter = stoi(LineOrder.at(0));
+            // order->counter = stoi(LineOrder.at(0));
             delete tempLinkedlist;
             delete order;
         }

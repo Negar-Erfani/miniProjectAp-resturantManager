@@ -21,7 +21,7 @@ int main() {
     // menu->printItem();
     listOfOrders* ourOrderList = new listOfOrders();
     ourOrderList->readFromFile();
-    ourOrderList->getOrder();
+    ourOrderList->getOrder();   
 
     
 
