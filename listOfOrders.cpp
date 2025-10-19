@@ -15,7 +15,7 @@ void listOfOrders::getOrder()
 {
     string name;
     int studentId;
-    linkedlist* orderedItems;
+    linkedlist* orderedItems = new linkedlist();
     cout << "please enter customer's name :" << endl;
     cin >> name;
     cout << "please enter customer's studentID :" << endl;
@@ -42,11 +42,12 @@ void listOfOrders::getOrder()
         cin >> temp3;
     }
     Order currentOrder = Order(name, studentId, orderedItems);
+    orderList = new AVLTree();
     orderList->insert(currentOrder);
 
-    ofstream orderInfo("order informations", ios::app);
+    ofstream orderInfo("order informations.txt", ios::app);
     orderInfo << currentOrder.orderNum << " " << currentOrder.customerName << " " << currentOrder.customerId << " ";
-    cout << currentOrder.orderedItems->asLine();
+    orderInfo << currentOrder.orderedItems->asLine() << currentOrder.orderStatus << "\n";
     orderInfo.close();
     
 

@@ -19,7 +19,7 @@ int main() {
     // MenuItem* apetizer = new MenuItem("apetizer", menu);
     // MenuItem* drink = new MenuItem("drink", menu);
     // menu->printItem();
-    listOfOrders* ourOrderList = new listOfOrders();
+    listOfOrders* ourOrderList;
     ourOrderList->getOrder();
 
     
