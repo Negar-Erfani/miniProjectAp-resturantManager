@@ -16,4 +16,5 @@ class Menu
     public:
     void addItem (linkedlist* head,string type);
     void printItem();
+    bool isItInMenu(string item);
 };

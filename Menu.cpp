@@ -22,3 +22,18 @@ void Menu::addItem (linkedlist* head,string type)
     items.push_back(temp);
 
 }
+bool Menu::isItInMenu(string item)
+{
+    bool exist = 0;
+    for (const auto& temp : items)
+    {
+        exist = temp.first->searchInLinkedlist(item);
+        if(exist)
+        {
+            return exist;
+        }
+        
+    }
+    return exist;
+    
+}

@@ -32,7 +32,7 @@ MenuItem::MenuItem (string name, Menu* menu) : name(name)
                 if(userDefinedFood == "end")
                 {
                     #ifdef _WIN32
-                    system("chcp 65001"); // تنظیم کدپیج UTF-8 در ویندوز
+                    system("chcp 65001"); 
                     #endif
                     cout << "\U0001F600"<< "\033[32m" << " Added successfully" <<"\033[0m"<< endl;
                     break;
