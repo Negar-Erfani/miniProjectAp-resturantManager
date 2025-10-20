@@ -162,13 +162,20 @@ void AVLTree::inorder(Node* node) {
         inorder(node->right);
     }
 }
-vector <AVLTree::Node*> AVLTree::inorderNodes(Node* node) 
+vector<AVLTree::Node*> AVLTree::inorderNodes(Node* node) 
 {
-    vector <Node*> nodes;
+    vector<Node*> nodes;
     if (node != nullptr) {
+        // پیمایش زیر درخت چپ
+        vector<Node*> leftNodes = inorderNodes(node->left);
+        nodes.insert(nodes.end(), leftNodes.begin(), leftNodes.end());
+        
+        // اضافه کردن گره فعلی
         nodes.push_back(node);
-        inorderNodes(node->left);
-        inorder(node->right);
+        
+        // پیمایش زیر درخت راست
+        vector<Node*> rightNodes = inorderNodes(node->right);
+        nodes.insert(nodes.end(), rightNodes.begin(), rightNodes.end());
     }
     return nodes;
 }

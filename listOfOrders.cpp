@@ -113,7 +113,6 @@ void listOfOrders::deleteOrder(int OrderNum, string singleOrder)
 }
 void listOfOrders::rewriteFile()
 {
-    ofstream outFile("Order information.txt", std::ios::trunc);
     vector <AVLTree::Node*> nodes;
     nodes = orderList->inorderNodes(orderList->root);
     ofstream orderInfo("order information.txt", ios::trunc);
