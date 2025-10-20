@@ -1,5 +1,0 @@
-kebab
-chicken
-sandwich
-rice
-pizza
