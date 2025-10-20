@@ -109,12 +109,8 @@ void listOfOrders::getOrder(Menu* menu)
     {
         if(!menu->isItInMenu(temp3))
         {
-            if(temp3 == "NO")
-            {
-                return;
-            }
             cout << "This order is not on the menu!" << endl;
-            cout << "Try order someting else or write NO to exit" << endl;
+            delete orderedItems;
             return;
 
         }
@@ -122,7 +118,8 @@ void listOfOrders::getOrder(Menu* menu)
         cin >> temp3;
     }
     Order currentOrder = Order(name, studentId, orderedItems);
-    // orderList = new AVLTree();
+    if (orderList == nullptr)
+    orderList = new AVLTree();
     orderList->insert(currentOrder);
 
     ofstream orderInfo("order information.txt", ios::app);
@@ -219,7 +216,6 @@ void listOfOrders::addOrder(int OrderNum, string singleOrder, Menu* menu)
         {
 
             cout << "This order is not on the menu!" << endl;
-            cout << "Try order someting else or write NO to exit" << endl;
             return;
         }
     targetOrder->data.orderedItems->insert(singleOrder);
@@ -244,7 +240,6 @@ void listOfOrders::replaceOrder(int OrderNum, string oldOrder, string newOrder, 
         {
 
             cout << "This order is not on the menu!" << endl;
-            cout << "Try order someting else or write NO to exit" << endl;
             return;
         }
     targetOrder->data.orderedItems->remove(oldOrder);

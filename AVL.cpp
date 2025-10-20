@@ -51,17 +51,14 @@ typename AVLTree::Node* AVLTree::insert(Node* node, Order val) {
     if (balance > 1 && val.orderNum < node->left->data.orderNum)
         return rightRotate(node);
 
-    // Right Right Case
     if (balance < -1 && val.orderNum > node->right->data.orderNum)
         return leftRotate(node);
 
-    // Left Right Case
     if (balance > 1 && val.orderNum > node->left->data.orderNum) {
         node->left = leftRotate(node->left);
         return rightRotate(node);
     }
 
-    // Right Left Case
     if (balance < -1 && val.orderNum < node->right->data.orderNum) {
         node->right = rightRotate(node->right);
         return leftRotate(node);

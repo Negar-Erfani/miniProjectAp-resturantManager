@@ -13,7 +13,7 @@ enum orderInstruction{deleting = 1, replacing, adding};
 class listOfOrders
 {
     public:
-    AVLTree* orderList;
+    AVLTree* orderList = nullptr;
     void getOrder (Menu* menu);
     void readFromFile();
     void rewriteFile();

@@ -21,11 +21,11 @@ int main() {
     MenuItem* drink = new MenuItem("drink", menu);
     menu->printItem();
     listOfOrders* ourOrderList = new listOfOrders();
+    ourOrderList->readFromFile();
     bool exit = 0;
     string instruct;
-    string instructTemp;
-    cin >> instruct;
     cout << "your wish is my command:" << endl;
+    cin >> instruct;
     while(exit != 1)
     {
         if(instruct == "getOrder")
@@ -92,12 +92,14 @@ int main() {
             break;
         }
         cout << endl;
-}
-
-
-
+        cout << "your wish is my command:" << endl;
+        cin >> instruct;
+    }
     
-
-
+    
+    
+    
+    
+    
     return 0;
 }
