@@ -14,11 +14,11 @@ using namespace std;
 
 int main() {
     // از روی فایل لینک لیست مربوط به هر کدوم رو پر کن
-    // Menu* menu = new Menu();
-    // MenuItem* food = new MenuItem("food", menu);
-    // MenuItem* apetizer = new MenuItem("apetizer", menu);
-    // MenuItem* drink = new MenuItem("drink", menu);
-    // menu->printItem();
+    Menu* menu = new Menu();
+    MenuItem* food = new MenuItem("food", menu);
+    MenuItem* apetizer = new MenuItem("apetizer", menu);
+    MenuItem* drink = new MenuItem("drink", menu);
+    menu->printItem();
     listOfOrders* ourOrderList = new listOfOrders();
     ourOrderList->readFromFile();
     // for (size_t i = 0; i < 3; i++)

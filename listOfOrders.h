@@ -14,13 +14,15 @@ class listOfOrders
 {
     public:
     AVLTree* orderList;
-    void getOrder ();
+    void getOrder (Menu* menu);
     void readFromFile();
     void rewriteFile();
     void deleteOrder(int OrderNum, string singleOrder);
-    void addOrder(int OrderNum, string singleOrder);
-    void replaceOrder(int OrderNum, string oldOrder, string newOrder);
+    void addOrder(int OrderNum, string singleOrder, Menu* menu);
+    void replaceOrder(int OrderNum, string oldOrder, string newOrder, Menu* menu);
     void changeOrderStatus(int OrderNum, string newStatus);
     void review();
+    private:
+    bool isItOnMenu (Menu* menu, string Item);
 };
 

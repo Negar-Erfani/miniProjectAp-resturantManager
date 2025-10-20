@@ -12,6 +12,11 @@
 #include <utility>
 using namespace std;
 
+bool listOfOrders::isItOnMenu (Menu* menu, string Item)
+{
+    return menu->isItInMenu(Item);
+
+}
 void listOfOrders::readFromFile()
 {
     orderList = new AVLTree();
@@ -75,7 +80,7 @@ void listOfOrders::review()
     }
     orderInfo.close();
 }
-void listOfOrders::getOrder()
+void listOfOrders::getOrder(Menu* menu)
 {
     string name;
     int studentId;
@@ -102,6 +107,17 @@ void listOfOrders::getOrder()
     }
     while(temp3 != "end")
     {
+        if(!menu->isItInMenu(temp3))
+        {
+            if(temp3 == "NO")
+            {
+                return;
+            }
+            cout << "This order is not on the menu!" << endl;
+            cout << "Try order someting else or write NO to exit" << endl;
+            continue;
+
+        }
         orderedItems->insert(temp3);
         cin >> temp3;
     }
@@ -183,7 +199,7 @@ else
 cout << "Failed!" << endl << "You can only enter Deliverd or Canceling for a new status of order!" << endl;
 
 }
-void listOfOrders::addOrder(int OrderNum, string singleOrder)
+void listOfOrders::addOrder(int OrderNum, string singleOrder, Menu* menu)
 {
     AVLTree::Node* targetOrder = orderList->search(OrderNum);
     if(targetOrder == nullptr)
@@ -199,6 +215,13 @@ void listOfOrders::addOrder(int OrderNum, string singleOrder)
     }
     else
     {
+        if(!menu->isItInMenu(singleOrder))
+        {
+
+            cout << "This order is not on the menu!" << endl;
+            cout << "Try order someting else or write NO to exit" << endl;
+            return;
+        }
     targetOrder->data.orderedItems->insert(singleOrder);
     cout << "successfuly added!" << endl;
     rewriteFile();
@@ -206,7 +229,7 @@ void listOfOrders::addOrder(int OrderNum, string singleOrder)
     
 
 }
-void listOfOrders::replaceOrder(int OrderNum, string oldOrder, string newOrder)
+void listOfOrders::replaceOrder(int OrderNum, string oldOrder, string newOrder, Menu* menu)
 {
     
     AVLTree::Node* targetOrder = orderList->search(OrderNum);
@@ -217,6 +240,13 @@ void listOfOrders::replaceOrder(int OrderNum, string oldOrder, string newOrder)
     }
     if(targetOrder->data.orderedItems->searchInLinkedlist(oldOrder))
     {
+    if(!menu->isItInMenu(newOrder))
+        {
+
+            cout << "This order is not on the menu!" << endl;
+            cout << "Try order someting else or write NO to exit" << endl;
+            return;
+        }
     targetOrder->data.orderedItems->remove(oldOrder);
     targetOrder->data.orderedItems->insert(newOrder);
     cout << "successfuly replaced!" << endl;
