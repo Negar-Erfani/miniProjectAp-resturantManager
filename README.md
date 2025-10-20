@@ -30,7 +30,6 @@ Technologies Used
   - AVL Tree (for order storage and retrieval)
   - Linked List (for menu items and order items)
 - File I/O: Reads/writes data to text files for persistence
-- Standard Libraries: <iostream>, <vector>, <string>, <fstream>, <map>, <sstream>, <algorithm>
 
 Project Structure
 -----------------
