@@ -16,6 +16,7 @@ class listOfOrders
     AVLTree* orderList;
     void getOrder ();
     void readFromFile();
+    void rewriteFile();
     void deleteOrder(int OrderNum, string singleOrder);
 };
 

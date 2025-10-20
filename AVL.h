@@ -19,9 +19,9 @@ class AVLTree {
         int height;
         Node(Order val) : data(val), left(nullptr), right(nullptr), height(1) {}
     };
+    Node* root;
 private:
 
-Node* root;
 
 int getHeight(Node* node);
 int getBalance(Node* node);
@@ -32,10 +32,11 @@ Node* minValueNode(Node* node);
 Node* remove(Node* node, Order val);
 void inorder(Node* node);
 
-public:
+public:    
 AVLTree() : root(nullptr) {}
     void insert(Order val);
     void remove(Order val);
     AVLTree::Node* search(int orderNum);
     void inorderTraversal();
+    vector <Node*> inorderNodes (Node* node);
 };

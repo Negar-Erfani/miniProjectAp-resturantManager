@@ -1,6 +1,7 @@
 #include "AVL.h"
 #include "Order.h"
-#include <algorithm> // for std::max
+#include <algorithm>
+#include <vector>
 using namespace std;
 
 int AVLTree::getHeight(Node* node) {
@@ -141,12 +142,16 @@ AVLTree::Node* AVLTree::search(int orderNum) {
     while (current != nullptr) {
         if (orderNum == current->data.orderNum)
             return current;
-        else if (orderNum < current->data.orderNum)
+            else if (orderNum < current->data.orderNum)
+            {
             current = current->left;
-        else
+            }
+            else
+            {
             current = current->right;
+            }
     }
-    return nullptr;
+    return current;
 }
 
 void AVLTree::inorder(Node* node) {
@@ -156,6 +161,16 @@ void AVLTree::inorder(Node* node) {
         node->data.orderedItems->display();
         inorder(node->right);
     }
+}
+vector <AVLTree::Node*> AVLTree::inorderNodes(Node* node) 
+{
+    vector <Node*> nodes;
+    if (node != nullptr) {
+        nodes.push_back(node);
+        inorderNodes(node->left);
+        inorder(node->right);
+    }
+    return nodes;
 }
 
 void AVLTree::inorderTraversal() {

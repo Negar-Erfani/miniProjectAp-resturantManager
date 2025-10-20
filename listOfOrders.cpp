@@ -30,16 +30,17 @@ void listOfOrders::readFromFile()
                 }
             }
             linkedlist* tempLinkedlist = new linkedlist();
-            for (size_t i = 3; i < LineOrder.size()-2; i++)
+            int size = LineOrder.size();
+            for (size_t i = 3; i <= size-2; i++)
             {
                 tempLinkedlist->insert(LineOrder.at(i));
             }
-            Order* order = new Order(LineOrder.at(1), stoi(LineOrder.at(2)), tempLinkedlist);
-            order->changeStatus(LineOrder.at(LineOrder.size()-1));
-            order->orderNum = stoi(LineOrder.at(0));
+            Order order = Order(LineOrder.at(1), stoi(LineOrder.at(2)), tempLinkedlist);
+            order.changeStatus(LineOrder.at(LineOrder.size()-1));
+            order.orderNum = stoi(LineOrder.at(0));
+            orderList->insert(order);
             // order->counter = stoi(LineOrder.at(0));
-            delete tempLinkedlist;
-            delete order;
+            LineOrder.clear();
         }
     }
     else
@@ -92,14 +93,35 @@ void listOfOrders::getOrder()
 void listOfOrders::deleteOrder(int OrderNum, string singleOrder)
 {
     AVLTree::Node* targetOrder = orderList->search(OrderNum);
+    if(targetOrder == nullptr)
+    {
+        cout << "This item has not been ordered!" << endl;
+        return;
+    }
     if(targetOrder->data.orderedItems->getNum() > 1)
     {
     targetOrder->data.orderedItems->remove(singleOrder);
+    cout << "successfuly removed!" << endl;
     }
     else
     {
-        cout << "order can't be deleted because of number limitation of atleast 1!" << endl;
+        cout << "order can't be deleted because of the number limitation of atleast 1!" << endl;
     }
+    rewriteFile();
+    
 
+}
+void listOfOrders::rewriteFile()
+{
+    ofstream outFile("Order information.txt", std::ios::trunc);
+    vector <AVLTree::Node*> nodes;
+    nodes = orderList->inorderNodes(orderList->root);
+    ofstream orderInfo("order information.txt", ios::trunc);
+    for( AVLTree::Node* it : nodes )
+    {
+    orderInfo << it->data.orderNum << " " << it->data.customerName << " " << it->data.customerId << " ";
+    orderInfo << it->data.orderedItems->asLine() << it->data.orderStatus << "\n";
+    }
+    orderInfo.close();
 
 }

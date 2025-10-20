@@ -51,14 +51,18 @@ void linkedlist::display()
 }
 int linkedlist::getNum()
 {
-    int number = 0;
-    Nodel* temp = head;
+        int number = 0;
+        Nodel* temp = head;
+        if(temp == 0)
+        {
+            return 0;
+        }
         while (temp != nullptr) 
         {
             number++;
             temp = temp->next;
         }
-        cout << endl;
+        return number;
 }
 string linkedlist::asLine()
 {

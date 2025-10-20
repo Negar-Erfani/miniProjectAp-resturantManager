@@ -21,7 +21,12 @@ int main() {
     // menu->printItem();
     listOfOrders* ourOrderList = new listOfOrders();
     ourOrderList->readFromFile();
-    ourOrderList->getOrder();   
+    // for (size_t i = 0; i < 3; i++)
+    // {
+    //     ourOrderList->getOrder(); 
+    // }
+    ourOrderList->deleteOrder(2, "kebab");
+
 
     
 
