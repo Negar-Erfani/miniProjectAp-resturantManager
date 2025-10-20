@@ -25,7 +25,11 @@ int main() {
     // {
     //     ourOrderList->getOrder(); 
     // }
-    ourOrderList->deleteOrder(2, "kebab");
+    // ourOrderList->deleteOrder(1, "egg");
+    ourOrderList->replaceOrder(4, "CocaCola", "Soda");
+    // ourOrderList->addOrder(3, "CocaCola");
+    // ourOrderList->changeOrderStatus(1, "Canceling");
+    ourOrderList->review();
 
 
     

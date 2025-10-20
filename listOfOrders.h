@@ -18,5 +18,9 @@ class listOfOrders
     void readFromFile();
     void rewriteFile();
     void deleteOrder(int OrderNum, string singleOrder);
+    void addOrder(int OrderNum, string singleOrder);
+    void replaceOrder(int OrderNum, string oldOrder, string newOrder);
+    void changeOrderStatus(int OrderNum, string newStatus);
+    void review();
 };
 

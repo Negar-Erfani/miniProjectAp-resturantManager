@@ -75,6 +75,17 @@ string linkedlist::asLine()
         }
         return tempLine;
 }
+bool linkedlist::searchInLinkedlist(string value)
+{
+    Nodel* temp = head;
+    while (temp != nullptr) {
+        if (temp->data == value) {
+            return true;
+        }
+        temp = temp->next;
+    }
+    return false;
+}
 
 
 

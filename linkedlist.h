@@ -21,5 +21,6 @@ class linkedlist
     void display();
     string asLine();
     int getNum();
+    bool searchInLinkedlist(string value);
 
 };

@@ -49,6 +49,32 @@ void listOfOrders::readFromFile()
     }
     orderInfo.close();
 }
+void listOfOrders::review()
+{
+    orderList = new AVLTree();
+    string lineOrder, tempOrder;
+    vector <string> LineOrder;
+    ifstream orderInfo("order information.txt");
+    if(orderInfo.is_open())
+    {
+        while(getline(orderInfo, lineOrder))
+        {
+            stringstream ss (lineOrder);
+            {
+                while(ss >> tempOrder)
+                {
+                    cout << tempOrder << " ";
+                }
+                cout << endl;
+            }
+        }
+    }
+    else
+    {
+        cout << "LIST failed" << endl;
+    }
+    orderInfo.close();
+}
 void listOfOrders::getOrder()
 {
     string name;
@@ -95,7 +121,7 @@ void listOfOrders::deleteOrder(int OrderNum, string singleOrder)
     AVLTree::Node* targetOrder = orderList->search(OrderNum);
     if(targetOrder == nullptr)
     {
-        cout << "This item has not been ordered!" << endl;
+        cout << "This order does not exist!" << endl;
         return;
     }
     if(targetOrder->data.orderedItems->getNum() > 1)
@@ -109,6 +135,99 @@ void listOfOrders::deleteOrder(int OrderNum, string singleOrder)
     }
     rewriteFile();
     
+
+}
+void listOfOrders::changeOrderStatus(int OrderNum, string newStatus)
+{
+    if (newStatus == "Canceling" || newStatus == "Deliverd")
+    {
+    AVLTree::Node* targetOrder = orderList->search(OrderNum);
+    if(targetOrder == nullptr)
+    {
+        cout << "This order does not exist!" << endl;
+        return;
+    }
+    // if(targetOrder->data.orderStatus == "Processing" && newStatus == "Canceling")
+    else if(targetOrder->data.orderStatus == "Processing" && newStatus == "Canceling")
+    {
+    targetOrder->data.orderStatus = newStatus;
+    cout << "successfuly Canceled!" << endl;
+    }
+    else if(targetOrder->data.orderStatus == "Deliverd" && newStatus == "Canceling")
+    {
+    cout << "The Order can not be Canceled!" << endl;
+    return;
+    }
+    else if(targetOrder->data.orderStatus == "Canceling" && newStatus == "Canceling")
+    {
+    cout << "The Order has already been Canceled!" << endl;
+    return;
+    }
+    else if(targetOrder->data.orderStatus == "Processing" && newStatus == "Deliverd")
+    {
+    cout << "successfuly Delivered!" << endl;
+    }
+    else if(targetOrder->data.orderStatus == "Deliverd" && newStatus == "Deliverd")
+    {
+    cout << "The Order has already been Delivered!" << endl;
+    return;
+    }
+    else if(targetOrder->data.orderStatus == "Canceling" && newStatus == "Deliverd")
+    {
+    cout << "The Order has been Canceled!" << endl;
+    return;
+    }
+    rewriteFile();
+}
+else
+cout << "Failed!" << endl << "You can only enter Deliverd or Canceling for a new status of order!" << endl;
+
+}
+void listOfOrders::addOrder(int OrderNum, string singleOrder)
+{
+    AVLTree::Node* targetOrder = orderList->search(OrderNum);
+    if(targetOrder == nullptr)
+    {
+        cout << "This order does not exist!" << endl;
+        return;
+    }
+
+    if (targetOrder->data.orderedItems->searchInLinkedlist(singleOrder))
+    {
+        cout << "This order has already existed!" << endl;
+        return;
+    }
+    else
+    {
+    targetOrder->data.orderedItems->insert(singleOrder);
+    cout << "successfuly added!" << endl;
+    rewriteFile();
+    }
+    
+
+}
+void listOfOrders::replaceOrder(int OrderNum, string oldOrder, string newOrder)
+{
+    
+    AVLTree::Node* targetOrder = orderList->search(OrderNum);
+    if(targetOrder == nullptr)
+    {
+        cout << "This order does not exist!" << endl;
+        return;
+    }
+    if(targetOrder->data.orderedItems->searchInLinkedlist(oldOrder))
+    {
+    targetOrder->data.orderedItems->remove(oldOrder);
+    targetOrder->data.orderedItems->insert(newOrder);
+    cout << "successfuly replaced!" << endl;
+    rewriteFile();
+    }
+    else
+    {
+        cout << "There is no such order to be replaced!" << endl;
+        return;
+    }
+
 
 }
 void listOfOrders::rewriteFile()
