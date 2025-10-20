@@ -115,7 +115,7 @@ void listOfOrders::getOrder(Menu* menu)
             }
             cout << "This order is not on the menu!" << endl;
             cout << "Try order someting else or write NO to exit" << endl;
-            continue;
+            return;
 
         }
         orderedItems->insert(temp3);
