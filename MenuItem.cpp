@@ -32,8 +32,8 @@ MenuItem::MenuItem (string name, Menu* menu) : name(name)
                 if(userDefinedFood == "end")
                 {
                     #ifdef _WIN32
-                    system("chcp 65001"); 
-                    cout << "☺️ "<< "\033[32m" << " Added Successfully" <<"\033[0m"<< endl;
+                    system("chcp 65001 > nul"); 
+                    cout << "☺️ " << "\033[32m" << " Added Successfully" << "\033[0m" << endl;
                     #endif
                     break;
                 }

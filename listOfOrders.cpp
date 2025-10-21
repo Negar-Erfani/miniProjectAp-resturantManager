@@ -93,7 +93,7 @@ void listOfOrders::getOrder(Menu* menu)
     {
         cin.clear();
         cin.ignore(10000, '\n');
-        cout << "Not a studentID. please try again :" << endl;
+        cout << "\033[31m" << "Not a studentID. please try again :" << "\033[0m" << endl;
         cin >> studentId;
     }
     cout << "please enter customer's order. write end when you are done :" << endl;
@@ -101,7 +101,7 @@ void listOfOrders::getOrder(Menu* menu)
     cin >> temp3;
     while(temp3=="end")
     {
-    cout << "You didn't enter any order!" << endl;
+    cout << "\033[31m" << "You didn't enter any order!" << "\033[0m" << endl;
     cout << "please try again :"<<endl;
     cin >> temp3;
     }
@@ -109,7 +109,7 @@ void listOfOrders::getOrder(Menu* menu)
     {
         if(!menu->isItInMenu(temp3))
         {
-            cout << "This order is not on the menu!" << endl;
+            cout << "\033[31m" << "This order is not on the menu!" << "\033[0m" << endl;
             delete orderedItems;
             return;
 
@@ -126,25 +126,38 @@ void listOfOrders::getOrder(Menu* menu)
     orderInfo << currentOrder.orderNum << " " << currentOrder.customerName << " " << currentOrder.customerId << " ";
     orderInfo << currentOrder.orderedItems->asLine() << currentOrder.orderStatus << "\n";
     orderInfo.close();
+    #ifdef _WIN32
+    system("chcp 65001 > nul"); 
+    cout << "☺️ " << "\033[32m" << " Added Successfully" << "\033[0m" << endl;
+    #endif
     
 
 }
 void listOfOrders::deleteOrder(int OrderNum, string singleOrder)
 {
     AVLTree::Node* targetOrder = orderList->search(OrderNum);
-    if(targetOrder == nullptr)
-    {
-        cout << "This order does not exist!" << endl;
-        return;
-    }
+    // if(targetOrder == nullptr)
+    // {
+    //     cout << "This order does not exist!" << endl;
+    //     return;
+    // }
     if(targetOrder->data.orderedItems->getNum() > 1)
     {
-    targetOrder->data.orderedItems->remove(singleOrder);
-    cout << "successfuly removed!" << endl;
+        auto check = targetOrder->data.orderedItems->asLine();
+        targetOrder->data.orderedItems->remove(singleOrder);
+        if (check == targetOrder->data.orderedItems->asLine())
+        {
+        cout << "\033[31m" << "This order does not exist!" << "\033[0m" << endl;
+        }
+        else
+        {
+            // cout << "successfuly removed!" << endl;
+            cout << "☺️ " << "\033[32m" << " Removed Successfully" << "\033[0m" << endl;
+        }
     }
     else
     {
-        cout << "order can't be deleted because of the number limitation of atleast 1!" << endl;
+        cout << "\033[31m"  << "order can't be deleted because of the number limitation of atleast 1!" << "\033[0m" << endl;
     }
     rewriteFile();
     
@@ -152,48 +165,50 @@ void listOfOrders::deleteOrder(int OrderNum, string singleOrder)
 }
 void listOfOrders::changeOrderStatus(int OrderNum, string newStatus)
 {
-    if (newStatus == "Canceling" || newStatus == "Deliverd")
+    if (newStatus == "Canceling" || newStatus == "Delivered")
     {
     AVLTree::Node* targetOrder = orderList->search(OrderNum);
     if(targetOrder == nullptr)
     {
-        cout << "This order does not exist!" << endl;
+        cout << "\033[31m" <<"This order does not exist!" << "\033[0m" << endl;
         return;
     }
     // if(targetOrder->data.orderStatus == "Processing" && newStatus == "Canceling")
     else if(targetOrder->data.orderStatus == "Processing" && newStatus == "Canceling")
     {
     targetOrder->data.orderStatus = newStatus;
-    cout << "successfuly Canceled!" << endl;
-    }
-    else if(targetOrder->data.orderStatus == "Deliverd" && newStatus == "Canceling")
-    {
-    cout << "The Order can not be Canceled!" << endl;
+    cout << "☺️ " << "\033[32m"<< " Successfuly Canceled!" << endl;
+}
+else if(targetOrder->data.orderStatus == "Delivered" && newStatus == "Canceling")
+{
+    cout << "\033[31m"<< "The Order can not be Canceled!" << "\033[0m" << "\033[0m" << endl;
     return;
-    }
-    else if(targetOrder->data.orderStatus == "Canceling" && newStatus == "Canceling")
-    {
-    cout << "The Order has already been Canceled!" << endl;
+}
+else if(targetOrder->data.orderStatus == "Canceling" && newStatus == "Canceling")
+{
+    cout << "\033[31m" << "The Order has already been Canceled!" << "\033[0m" << endl;
     return;
-    }
-    else if(targetOrder->data.orderStatus == "Processing" && newStatus == "Deliverd")
-    {
-    cout << "successfuly Delivered!" << endl;
-    }
-    else if(targetOrder->data.orderStatus == "Deliverd" && newStatus == "Deliverd")
-    {
-    cout << "The Order has already been Delivered!" << endl;
-    return;
-    }
-    else if(targetOrder->data.orderStatus == "Canceling" && newStatus == "Deliverd")
-    {
-    cout << "The Order has been Canceled!" << endl;
-    return;
-    }
-    rewriteFile();
+}
+else if(targetOrder->data.orderStatus == "Processing" && newStatus == "Delivered")
+{
+    
+targetOrder->data.orderStatus = newStatus;
+cout << "☺️ " << "\033[32m"<< " Successfuly Delivered!" << "\033[0m" << endl;
+}
+else if(targetOrder->data.orderStatus == "Delivered" && newStatus == "Delivered")
+{
+cout << "\033[31m" << "The Order has already been Delivered!" << "\033[0m" << endl;
+return;
+}
+else if(targetOrder->data.orderStatus == "Canceling" && newStatus == "Delivered")
+{
+cout << "\033[31m" << "The Order has been Canceled!" << "\033[0m" << endl;
+return;
+}
+rewriteFile();
 }
 else
-cout << "Failed!" << endl << "You can only enter Deliverd or Canceling for a new status of order!" << endl;
+cout << "\033[31m" << "Failed!" << endl << "You can only enter Delivered or Canceling for a new status of order!" << "\033[0m" << endl;
 
 }
 void listOfOrders::addOrder(int OrderNum, string singleOrder, Menu* menu)
@@ -201,13 +216,13 @@ void listOfOrders::addOrder(int OrderNum, string singleOrder, Menu* menu)
     AVLTree::Node* targetOrder = orderList->search(OrderNum);
     if(targetOrder == nullptr)
     {
-        cout << "This order does not exist!" << endl;
+        cout << "\033[31m" << "This order does not exist!" << "\033[0m" << endl;
         return;
     }
 
     if (targetOrder->data.orderedItems->searchInLinkedlist(singleOrder))
     {
-        cout << "This order has already existed!" << endl;
+        cout << "\033[31m" << "This order has already exist!" << "\033[0m" << endl;
         return;
     }
     else
@@ -215,11 +230,11 @@ void listOfOrders::addOrder(int OrderNum, string singleOrder, Menu* menu)
         if(!menu->isItInMenu(singleOrder))
         {
 
-            cout << "This order is not on the menu!" << endl;
+            cout << "\033[31m" << "This order is not on the menu!" << "\033[0m" << endl;
             return;
         }
     targetOrder->data.orderedItems->insert(singleOrder);
-    cout << "successfuly added!" << endl;
+    cout << "☺️ " << "\033[32m" << " Added Successfully" << "\033[0m" << endl;
     rewriteFile();
     }
     
@@ -231,7 +246,7 @@ void listOfOrders::replaceOrder(int OrderNum, string oldOrder, string newOrder, 
     AVLTree::Node* targetOrder = orderList->search(OrderNum);
     if(targetOrder == nullptr)
     {
-        cout << "This order does not exist!" << endl;
+        cout << "\033[31m" << "This order does not exist!" << "\033[0m" << endl;
         return;
     }
     if(targetOrder->data.orderedItems->searchInLinkedlist(oldOrder))
@@ -239,17 +254,17 @@ void listOfOrders::replaceOrder(int OrderNum, string oldOrder, string newOrder, 
     if(!menu->isItInMenu(newOrder))
         {
 
-            cout << "This order is not on the menu!" << endl;
+            cout << "\033[31m" << "This order is not on the menu!" << "\033[0m" << endl;
             return;
         }
     targetOrder->data.orderedItems->remove(oldOrder);
     targetOrder->data.orderedItems->insert(newOrder);
-    cout << "successfuly replaced!" << endl;
+    cout << "☺️ " << "\033[32m" << " Added Successfully" << "\033[0m" << "\033[0m" << endl;
     rewriteFile();
     }
     else
     {
-        cout << "There is no such order to be replaced!" << endl;
+        cout << "\033[31m" << "There is no such order to be replaced!" << "\033[0m" << endl;
         return;
     }
 

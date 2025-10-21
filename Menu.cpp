@@ -12,7 +12,7 @@ void Menu::printItem()
 {
     for (const auto& temp : items)
     {
-        cout << temp.second << ": ";
+        cout << "\033[36m" << temp.second << ": " << "\033[0m";
         temp.first->display();
     }
 }
